@@ -39,7 +39,8 @@ struct Elve {
 
 fn parse_calorie_lists(path: &str) -> Vec<Vec<i32>> {
     let content = fs::read_to_string(path)
-        .expect("Could not read file.");
+        .expect("Could not read file.")
+        .replace("\r", "");
 
     let mut elve_items: Vec<Vec<i32>> = Vec::new();
 

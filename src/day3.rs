@@ -12,7 +12,8 @@ fn read_lines(input_path: &str) -> Result<Vec<String>, Error> {
     match read_to_string(input_path) {
         Err(_) => Err(Error::IOError),
         Ok(s) => {
-            Ok(s.split("\n")
+            Ok(s.replace("\r", "")
+                .split("\n")
                 .into_iter()
                 .filter(|s| s.len() > 0)
                 .map(|s| s.to_string())
