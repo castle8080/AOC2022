@@ -148,5 +148,5 @@ pub fn run() {
     let input_path = "puzzles/day3-1-input.txt";
     println!("Running day 3");
     part1(input_path).unwrap();
-    part2(input_path);
+    part2(input_path).unwrap();
 }
