@@ -66,13 +66,3 @@ pub fn part2(path: &str) -> Result<String, Error> {
 
     Ok(top3_sum.to_string())
 }
-
-pub fn run() {
-    let input_path = "puzzles/day1-1-input.txt";
-    println!("Running day 1:");
-    let r1 = part1(input_path);
-    println!("Part 1: {:?}", r1);
-
-    let r2 = part2(input_path);
-    println!("Part 2: {:?}", r2);
-}

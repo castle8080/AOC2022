@@ -1,15 +1,7 @@
-use std::fs::File;
-use std::io::prelude::*;
-use std::io::BufReader;
+use crate::common::{Error, read_non_empty_lines};
 
 use regex::Regex;
 use lazy_static::lazy_static;
-
-#[derive(Debug, Clone, Copy)]
-enum Error {
-    InvalidInput,
-    IOError
-}
 
 #[derive(Debug, Clone, Copy)]
 enum GameChoice {
@@ -17,7 +9,6 @@ enum GameChoice {
     Paper,
     Scissor
 }
-
 
 #[derive(Debug, Clone, Copy)]
 enum GameResult {
@@ -31,7 +22,7 @@ fn get_game_result(c: char) -> Result<GameResult, Error> {
         'X' => Ok(GameResult::Loose),
         'Y' => Ok(GameResult::Draw),
         'Z' => Ok(GameResult::Win),
-        _ => Err(Error::InvalidInput)
+        _ => Err(Error::General(format!("Invalid character for game result: {}", c)))
     }
 }
 
@@ -43,7 +34,7 @@ fn get_game_choice(c: char) -> Result<GameChoice, Error> {
         'X' => Ok(GameChoice::Rock),
         'Y' => Ok(GameChoice::Paper),
         'Z' => Ok(GameChoice::Scissor),
-        _ => Err(Error::InvalidInput)
+        _ => Err(Error::General(format!("Invalid character for game choice: {}", c)))
     }
 }
 
@@ -58,7 +49,7 @@ fn parse_line_char_codes(line: String) -> Result<(char, char), Error> {
             let c2 = c.get(2).unwrap().as_str().chars().next().unwrap();
             return Ok((c1, c2));
         }
-        None => Err(Error::InvalidInput)
+        None => Err(Error::General(format!("Invalid input line: [{}]", line)))
     }
 }
 
@@ -89,32 +80,15 @@ fn parse_line_p2(line: String) -> Result<(GameChoice, GameChoice), Error> {
 
 type GameChoiceLineParser = fn(String) -> Result<(GameChoice, GameChoice), Error>;
 
-fn parse_input_from_file(f: File, line_parser: GameChoiceLineParser) -> Result<Vec<(GameChoice, GameChoice)>, Error> {
-    let mut reader = BufReader::new(f);
+fn parse_input(path: &str, line_parser: GameChoiceLineParser) -> Result<Vec<(GameChoice, GameChoice)>, Error> {
+    let lines = read_non_empty_lines(path)?;
     let mut all_choices: Vec<(GameChoice, GameChoice)> = Vec::new();
 
-    loop {
-        let mut line = String::new();
-        let n_read = reader.read_line(&mut line).expect("able to read.");
-        if n_read == 0 {
-            break;
-        }
-        else {
-            match line_parser(line) {
-                Ok(values) => all_choices.push(values),
-                Err(e) => return Err(e)
-            }
-        }
+    for line in lines {
+        all_choices.push(line_parser(line)?)
     }
 
     Ok(all_choices)
-}
-
-fn parse_input(path: &str, line_parser: GameChoiceLineParser) -> Result<Vec<(GameChoice, GameChoice)>, Error> {
-    match File::open(path) {
-        Err(_) => Err(Error::IOError),
-        Ok(f) => parse_input_from_file(f, line_parser)
-    }
 }
 
 fn calculate_score(c1: &GameChoice, c2: &GameChoice) -> i32 {
@@ -137,28 +111,21 @@ fn calculate_score(c1: &GameChoice, c2: &GameChoice) -> i32 {
     }
 }
 
-fn run_part(name: &str, path: &str, line_parser: GameChoiceLineParser) {
-    let all_choices = parse_input(path, line_parser).unwrap();
+fn run_part(path: &str, line_parser: GameChoiceLineParser) -> Result<String, Error> {
+    let all_choices = parse_input(path, line_parser)?;
 
     let score = all_choices
         .iter()
         .map(|(c1, c2)| calculate_score(c2, c1))
         .sum::<i32>();
 
-    println!("{}: {}", name, score);
+    Ok(score.to_string())
 }
 
-pub fn part1(path: &str) {
-    run_part("Part 1", path, parse_line_p1);
+pub fn part1(path: &str) -> Result<String, Error> {
+    run_part(path, parse_line_p1)
 }
 
-pub fn part2(path: &str) {
-    run_part("Part 2", path, parse_line_p2);
-}
-
-pub fn run() {
-    let input_path = "puzzles/day2-1-input.txt";
-    println!("Running day 2");
-    part1(input_path);
-    part2(input_path);
+pub fn part2(path: &str) -> Result<String, Error> {
+    run_part(path, parse_line_p2)
 }
