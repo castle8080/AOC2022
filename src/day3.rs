@@ -59,7 +59,8 @@ pub fn part1(input_path: &str) -> Result<String, Error> {
         .map(|(p1, p2)| (get_priorities(p1), get_priorities(p2)))
         .map(|(s1, s2)| get_common_priority(&s1, &s2));
 
-    let result: i32 = common_p.map(|op| op.unwrap()).sum();
+    let result: i32 = common_p.map(|o| o.unwrap_or(0)).sum();
+
     Ok(result.to_string())
 }
 
@@ -123,8 +124,7 @@ pub fn part2(input_path: &str) -> Result<String, Error> {
         .iter()
         .map(|line_group| get_label_for_line_group(line_group).unwrap())
         .map(get_priority)
-        .filter(|o| o.is_some())
-        .map(|o| o.unwrap())
+        .map(|o| o.unwrap_or(0))
         .sum();
         
     Ok(result.to_string())

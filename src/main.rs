@@ -14,14 +14,14 @@ type ProblemFunction = fn(&str) -> Result<String, Error>;
 fn main() {
 
     let problems: Vec<(&str, &str, &str, ProblemFunction)> = vec![
-        ("Day1", "Part1", "puzzles/day1-1-input.txt", day1::part1),
-        ("Day1", "Part2", "puzzles/day1-1-input.txt", day1::part2),
-        ("Day2", "Part1", "puzzles/day2-1-input.txt", day2::part1),
-        ("Day2", "Part2", "puzzles/day2-1-input.txt", day2::part2),
-        ("Day3", "Part1", "puzzles/day3-1-input.txt", day3::part1),
-        ("Day3", "Part2", "puzzles/day3-1-input.txt", day3::part2),
-        ("Day4", "Part1", "puzzles/day4-1-input.txt", day4::part1),
-        ("Day4", "Part2", "puzzles/day4-1-input.txt", day4::part2),
+        ("1", "1", "puzzles/day1-1-input.txt", day1::part1),
+        ("1", "2", "puzzles/day1-1-input.txt", day1::part2),
+        ("2", "1", "puzzles/day2-1-input.txt", day2::part1),
+        ("2", "2", "puzzles/day2-1-input.txt", day2::part2),
+        ("3", "1", "puzzles/day3-1-input.txt", day3::part1),
+        ("3", "2", "puzzles/day3-1-input.txt", day3::part2),
+        ("4", "1", "puzzles/day4-1-input.txt", day4::part1),
+        ("4", "2", "puzzles/day4-1-input.txt", day4::part2),
     ];
 
     println!("Status,Day,Part,Timing,Answer");
