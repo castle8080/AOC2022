@@ -1,4 +1,3 @@
-use std::fs::read_to_string;
 use std::collections::HashSet;
 use std::collections::HashMap;
 
@@ -104,7 +103,7 @@ fn get_label_for_line_group(line_group: &Vec<String>) -> Option<char> {
 
     let matching_labels: Vec<char> = char_to_holder
         .iter()
-        .filter(|(c, owners)| owners.len() == line_group.len())
+        .filter(|(_, owners)| owners.len() == line_group.len())
         .map(|(c, _)| *c)
         .collect();
         

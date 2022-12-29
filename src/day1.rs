@@ -1,9 +1,6 @@
-use std::fs;
-use std::fmt::format;
 use crate::common::{read_lines, Error};
 
 struct Elve {
-    id: i32,
     calorie_total: i32
 }
 
@@ -36,8 +33,7 @@ fn parse_calorie_lists(path: &str) -> Result<Vec<Vec<i32>>, Error> {
 fn to_elves(elve_items: Vec<Vec<i32>>) -> Vec<Elve> {
     elve_items
         .iter()
-        .enumerate()
-        .map(|(i, items)| Elve { id: i as i32, calorie_total: items.iter().sum() })
+        .map(|items| Elve { calorie_total: items.iter().sum() })
         .collect()
 }
 
