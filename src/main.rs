@@ -1,3 +1,6 @@
+
+use std::time::Instant;
+
 mod common;
 mod day1;
 mod day2;
@@ -21,14 +24,16 @@ fn main() {
         ("Day4", "Part2", "puzzles/day4-1-input.txt", day4::part2),
     ];
 
+    println!("Status,Day,Part,Timing,Answer");
     for (day_name, part_name, file_name, p_func) in problems {
+        let start = Instant::now();
         let result = p_func(file_name);
         match result {
             Ok(answer) => {
-                println!("OK,{},{},{}", day_name, part_name, answer);
+                println!("OK,{},{},{},{}", day_name, part_name, start.elapsed().as_secs_f64(), answer);
             },
             Err(e) => {
-                println!("ERROR,{},{},{:?}", day_name, part_name, e);
+                println!("ERROR,{},{},{},{:?}", day_name, part_name, start.elapsed().as_secs_f64(), e);
             }
         }
     }
