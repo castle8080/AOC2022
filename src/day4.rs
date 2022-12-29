@@ -32,7 +32,14 @@ fn is_one_contained(pair: WorkPair) -> bool {
     is_contained(pair.1, pair.0)
 }
 
-pub fn part1(input_path: &str) -> Result<String, Error> {
+fn is_overlap(pair: WorkPair) -> bool {
+    is_one_contained(pair) ||
+    (pair.0.0 >= pair.1.0 && pair.0.0 <= pair.1.1) ||
+    (pair.0.1 >= pair.1.0 && pair.0.1 <= pair.1.1)
+
+}
+
+fn do_part_with_condition(input_path: &str, cond: fn(WorkPair) -> bool) -> Result<String, Error> {
     let lines = read_non_empty_lines(input_path)?;
 
     let work_pairs = (&lines)
@@ -42,8 +49,16 @@ pub fn part1(input_path: &str) -> Result<String, Error> {
 
     let result: i32 = work_pairs
         .iter()
-        .map(|pair| is_one_contained(*pair) as i32)
+        .map(|pair| cond(*pair) as i32)
         .sum();
 
     Ok(result.to_string())
+}
+
+pub fn part1(input_path: &str) -> Result<String, Error> {
+    do_part_with_condition(input_path, is_one_contained)
+}
+
+pub fn part2(input_path: &str) -> Result<String, Error> {
+    do_part_with_condition(input_path, is_overlap)
 }
