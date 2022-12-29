@@ -2,26 +2,7 @@ use std::fs::read_to_string;
 use std::collections::HashSet;
 use std::collections::HashMap;
 
-#[derive(Debug, Clone, Copy)]
-pub enum Error {
-    InvalidInput,
-    IOError
-}
-
-fn read_lines(input_path: &str) -> Result<Vec<String>, Error> {
-    match read_to_string(input_path) {
-        Err(_) => Err(Error::IOError),
-        Ok(s) => {
-            Ok(s.replace("\r", "")
-                .split("\n")
-                .into_iter()
-                .filter(|s| s.len() > 0)
-                .map(|s| s.to_string())
-                .collect()
-            )
-        }
-    }
-}
+use crate::common::{Error, read_non_empty_lines};
 
 fn get_line_parts(line: &String) -> (String, String) {
     let cs: Vec<char> = line.chars().collect();
@@ -32,23 +13,30 @@ fn get_line_parts(line: &String) -> (String, String) {
     (s1, s2)
 }
 
-fn get_priority(c: char) -> i32 {
+fn get_priority(c: char) -> Option<i32> {
     if c >= 'a' && c <= 'z' {
-        (c as i32) - ('a' as i32) + 1
+        Some((c as i32) - ('a' as i32) + 1)
     }
     else if c >= 'A' && c <= 'Z' {
-        (c as i32) - ('A' as i32) + 27
+        Some((c as i32) - ('A' as i32) + 27)
     }
     else {
-        -1
+        None
     }
 }
 
 fn get_priorities(s: String) -> HashSet<i32> {
     let mut priorities = HashSet::new() as HashSet<i32>;
-    for p in s.chars().map(get_priority).filter(|c| c >= &0) {
+    let priorities_list =
+        s.chars()
+            .map(get_priority)
+            .filter(|o| o.is_some())
+            .map(|o| o.unwrap());
+
+    for p in priorities_list {
         priorities.insert(p);
     }
+
     priorities
 }
 
@@ -63,8 +51,8 @@ fn get_common_priority(is1: &HashSet<i32>, is2: &HashSet<i32>) -> Option<i32> {
     }
 }
 
-pub fn part1(input_path: &str) -> Result<(), Error> {
-    let lines = read_lines(input_path)?;
+pub fn part1(input_path: &str) -> Result<String, Error> {
+    let lines = read_non_empty_lines(input_path)?;
     let common_p =
         (&lines)
         .iter()
@@ -73,9 +61,7 @@ pub fn part1(input_path: &str) -> Result<(), Error> {
         .map(|(s1, s2)| get_common_priority(&s1, &s2));
 
     let result: i32 = common_p.map(|op| op.unwrap()).sum();
-    println!("Part 1: {}", result);
-
-    Ok(())
+    Ok(result.to_string())
 }
 
 fn lines_to_line_groups(lines: Vec<String>) -> Vec<Vec<String>> {
@@ -131,23 +117,16 @@ fn get_label_for_line_group(line_group: &Vec<String>) -> Option<char> {
 
 }
 
-pub fn part2(input_path: &str) -> Result<(), Error> {
-    let line_groups = lines_to_line_groups(read_lines(input_path)?);
+pub fn part2(input_path: &str) -> Result<String, Error> {
+    let line_groups = lines_to_line_groups(read_non_empty_lines(input_path)?);
 
     let result: i32 = line_groups
         .iter()
         .map(|line_group| get_label_for_line_group(line_group).unwrap())
         .map(get_priority)
+        .filter(|o| o.is_some())
+        .map(|o| o.unwrap())
         .sum();
         
-    println!("Part 2: {}", result);
-
-    Ok(())
-}
-
-pub fn run() {
-    let input_path = "puzzles/day3-1-input.txt";
-    println!("Running day 3");
-    part1(input_path).unwrap();
-    part2(input_path).unwrap();
+    Ok(result.to_string())
 }

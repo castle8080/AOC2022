@@ -14,6 +14,8 @@ fn main() {
         ("Day1", "Part2", "puzzles/day1-1-input.txt", day1::part2),
         ("Day2", "Part1", "puzzles/day2-1-input.txt", day2::part1),
         ("Day2", "Part2", "puzzles/day2-1-input.txt", day2::part2),
+        ("Day3", "Part1", "puzzles/day3-1-input.txt", day3::part1),
+        ("Day3", "Part2", "puzzles/day3-1-input.txt", day3::part2),
     ];
 
     for (day_name, part_name, file_name, p_func) in problems {
