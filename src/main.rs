@@ -8,6 +8,7 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
+mod day7;
 
 use common::Error;
 
@@ -28,6 +29,8 @@ fn main() {
         ("5", "2", "puzzles/day5-1-input.txt", day5::part2),
         ("6", "1", "puzzles/day6-1-input.txt", day6::part1),
         ("6", "2", "puzzles/day6-1-input.txt", day6::part2),
+        ("7", "1", "puzzles/day7-1-input.txt", day7::part1),
+        ("7", "2", "puzzles/day7-1-input.txt", day7::part2),
     ];
 
     println!("Status,Day,Part,Timing,Answer");
