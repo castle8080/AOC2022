@@ -88,10 +88,12 @@ If you'd like to hang out, I'm @ericwastl on Twitter.
 
 -->
 <body>
-<header><div><h1 class="title-global"><a href="https://adventofcode.com/">Advent of Code</a></h1><nav><ul><li><a href="https://adventofcode.com/2022/about">[About]</a></li><li><a href="https://adventofcode.com/2022/events">[Events]</a></li><li><a href="https://teespring.com/stores/advent-of-code" target="_blank">[Shop]</a></li><li><a href="https://adventofcode.com/2022/settings">[Settings]</a></li><li><a href="https://adventofcode.com/2022/auth/logout">[Log Out]</a></li></ul></nav><div class="user">Bryan Castillo</div></div><div><h1 class="title-event">&nbsp;&nbsp;<span class="title-event-wrap">0.0.0.0:</span><a href="https://adventofcode.com/2022">2022</a><span class="title-event-wrap"></span></h1><nav><ul><li><a href="https://adventofcode.com/2022">[Calendar]</a></li><li><a href="https://adventofcode.com/2022/support">[AoC++]</a></li><li><a href="https://adventofcode.com/2022/sponsors">[Sponsors]</a></li><li><a href="https://adventofcode.com/2022/leaderboard">[Leaderboard]</a></li><li><a href="https://adventofcode.com/2022/stats">[Stats]</a></li></ul></nav></div></header>
+<header><div><h1 class="title-global"><a href="https://adventofcode.com/">Advent of Code</a></h1><nav><ul><li><a href="https://adventofcode.com/2022/about">[About]</a></li><li><a href="https://adventofcode.com/2022/events">[Events]</a></li><li><a href="https://teespring.com/stores/advent-of-code" target="_blank">[Shop]</a></li><li><a href="https://adventofcode.com/2022/settings">[Settings]</a></li><li><a href="https://adventofcode.com/2022/auth/logout">[Log Out]</a></li></ul></nav><div class="user">Bryan Castillo <span class="star-count">10*</span></div></div><div><h1 class="title-event">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="title-event-wrap">//</span><a href="https://adventofcode.com/2022">2022</a><span class="title-event-wrap"></span></h1><nav><ul><li><a href="https://adventofcode.com/2022">[Calendar]</a></li><li><a href="https://adventofcode.com/2022/support">[AoC++]</a></li><li><a href="https://adventofcode.com/2022/sponsors">[Sponsors]</a></li><li><a href="https://adventofcode.com/2022/leaderboard">[Leaderboard]</a></li><li><a href="https://adventofcode.com/2022/stats">[Stats]</a></li></ul></nav></div></header>
 
 <div id="sidebar">
-<div id="sponsor"><div class="quiet">Our <a href="https://adventofcode.com/2022/sponsors">sponsors</a> help make Advent of Code possible:</div><div class="sponsor"><a href="https://1337.life/" target="_blank" onclick="if(ga)ga('send','event','sponsor','sidebar',this.href);" rel="noopener">13|37</a> - Happy Holidays from all of us at 13|37 to all of you participating in Advent of Code '22!</div></div>
+<div id="sponsor"><div class="quiet">Our <a href="https://adventofcode.com/2022/sponsors">sponsors</a> help make Advent of Code possible:</div><div class="sponsor"><a href="https://www.ximedes.com/" target="_blank" onclick="if(ga)ga('send','event','sponsor','sidebar',this.href);" rel="noopener">Ximedes</a>
+ - From Kotlin in the cloud to NodeJS in the terminal, our software 
+powers payments and public transport ticketing all over the world.</div></div>
 </div><!--/sidebar-->
 
 <main>
@@ -142,11 +144,23 @@ be cleaning, so these seem like the most in need of reconsideration. In
 this example, there are <code><em>2</em></code> such pairs.</p>
 <p><em>In how many assignment pairs does one range fully contain the other?</em></p>
 </article>
-<p>To begin, <a href="https://adventofcode.com/2022/day/4/input" target="_blank">get your puzzle input</a>.</p>
-<form method="post" action="4/answer"><input type="hidden" name="level" value="1"><p>Answer: <input type="text" name="answer" autocomplete="off"> <input type="submit" value="[Submit]"></p></form>
+<p>Your puzzle answer was <code>483</code>.</p><article class="day-desc"><h2 id="part2">--- Part Two ---</h2><p>It seems like there is still quite a bit of duplicate work planned. Instead, the Elves would <span title="If you like this, you'll *love* axis-aligned bounding box intersection testing.">like</span> to know the number of pairs that <em>overlap at all</em>.</p>
+<p>In the above example, the first two pairs (<code>2-4,6-8</code> and <code>2-3,4-5</code>) don't overlap, while the remaining four pairs (<code>5-7,7-9</code>, <code>2-8,3-7</code>, <code>6-6,4-6</code>, and <code>2-6,4-8</code>) do overlap:</p>
+<ul>
+<li><code>5-7,7-9</code> overlaps in a single section, <code>7</code>.</li>
+<li><code>2-8,3-7</code> overlaps all of the sections <code>3</code> through <code>7</code>.</li>
+<li><code>6-6,4-6</code> overlaps in a single section, <code>6</code>.</li>
+<li><code>2-6,4-8</code> overlaps in sections <code>4</code>, <code>5</code>, and <code>6</code>.</li>
+</ul>
+<p>So, in this example, the number of overlapping assignment pairs is <code><em>4</em></code>.</p>
+<p><em>In how many assignment pairs do the ranges overlap?</em></p>
+</article>
+<p>Your puzzle answer was <code>874</code>.</p><p class="day-success">Both parts of this puzzle are complete! They provide two gold stars: **</p>
+<p>At this point, you should <a href="https://adventofcode.com/2022">return to your Advent calendar</a> and try another puzzle.</p>
+<p>If you still want to see it, you can <a href="https://adventofcode.com/2022/day/4/input" target="_blank">get your puzzle input</a>.</p>
 <p>You can also <span class="share">[Share<span class="share-content">on
-  <a href="https://twitter.com/intent/tweet?text=%22Camp+Cleanup%22+%2D+Day+4+%2D+Advent+of+Code+2022&amp;url=https%3A%2F%2Fadventofcode%2Ecom%2F2022%2Fday%2F4&amp;related=ericwastl&amp;hashtags=AdventOfCode" target="_blank">Twitter</a>
-  <a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=%22Camp+Cleanup%22+%2D+Day+4+%2D+Advent+of+Code+2022+%23AdventOfCode+https%3A%2F%2Fadventofcode%2Ecom%2F2022%2Fday%2F4'}else{return false;}" target="_blank">Mastodon</a></span>]</span> this puzzle.</p>
+  <a href="https://twitter.com/intent/tweet?text=I%27ve+completed+%22Camp+Cleanup%22+%2D+Day+4+%2D+Advent+of+Code+2022&amp;url=https%3A%2F%2Fadventofcode%2Ecom%2F2022%2Fday%2F4&amp;related=ericwastl&amp;hashtags=AdventOfCode" target="_blank">Twitter</a>
+  <a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=I%27ve+completed+%22Camp+Cleanup%22+%2D+Day+4+%2D+Advent+of+Code+2022+%23AdventOfCode+https%3A%2F%2Fadventofcode%2Ecom%2F2022%2Fday%2F4'}else{return false;}" target="_blank">Mastodon</a></span>]</span> this puzzle.</p>
 </main>
 
 <!-- ga -->
