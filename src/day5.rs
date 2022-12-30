@@ -110,7 +110,7 @@ fn parse_input(lines: &Vec<String>) -> Result<Input, Error> {
     Ok(Input { cargo_stacks, operations })
 }
 
-fn move_stack(cargo_stacks: &mut Vec<Vec<char>>, op: &MoveOperation) {
+fn move_stack_9000(cargo_stacks: &mut Vec<Vec<char>>, op: &MoveOperation) {
     let n = (op.n as usize).min(cargo_stacks[op.from - 1].len());
 
     for _ in 0..n {
@@ -119,12 +119,24 @@ fn move_stack(cargo_stacks: &mut Vec<Vec<char>>, op: &MoveOperation) {
     }
 }
 
-pub fn part1(input_path: &str) -> Result<String, Error> {
+fn move_stack_9001(cargo_stacks: &mut Vec<Vec<char>>, op: &MoveOperation) {
+    let n = (op.n as usize).min(cargo_stacks[op.from - 1].len());
+    let mut chunk: Vec<char> = Vec::new();
+
+    for _ in 0..n {
+        chunk.push(cargo_stacks[op.from - 1].pop().unwrap());
+    }
+
+    chunk.reverse();
+    cargo_stacks[op.to - 1].extend(chunk);
+}
+
+fn run_part(input_path: &str, mover_fn: fn(&mut Vec<Vec<char>>, &MoveOperation)) -> Result<String, Error> {
     let lines = read_lines(input_path)?;
     let mut input = parse_input(&lines)?;
 
     for move_op in &input.operations {
-        move_stack(&mut input.cargo_stacks, move_op)
+        mover_fn(&mut input.cargo_stacks, move_op)
     }
 
     let mut msg = String::new();
@@ -136,4 +148,12 @@ pub fn part1(input_path: &str) -> Result<String, Error> {
     }
 
     Ok(msg)
+}
+
+pub fn part1(input_path: &str) -> Result<String, Error> {
+    run_part(input_path, move_stack_9000)
+}
+
+pub fn part2(input_path: &str) -> Result<String, Error> {
+    run_part(input_path, move_stack_9001)
 }
