@@ -1,4 +1,3 @@
-
 use std::time::Instant;
 
 mod common;
@@ -9,13 +8,13 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
 use common::Error;
 
 type ProblemFunction = fn(&str) -> Result<String, Error>;
 
 fn main() {
-
     let problems: Vec<(&str, &str, &str, ProblemFunction)> = vec![
         ("1", "1", "puzzles/day1-input.txt", day1::part1),
         ("1", "2", "puzzles/day1-input.txt", day1::part2),
@@ -31,6 +30,8 @@ fn main() {
         ("6", "2", "puzzles/day6-input.txt", day6::part2),
         ("7", "1", "puzzles/day7-input.txt", day7::part1),
         ("7", "2", "puzzles/day7-input.txt", day7::part2),
+        ("8", "1", "puzzles/day8-input.txt", day8::part1),
+        ("8", "2", "puzzles/day8-input.txt", day8::part2),
     ];
 
     println!("Status,Day,Part,Timing,Answer");
