@@ -65,53 +65,74 @@ impl Movement {
     }   
 }
 
-struct Part1Process {
-    head_position: (i32, i32),
-    tail_position: (i32, i32),
+struct RopePositions {
+    positions: Vec<(i32, i32)>,
     tail_visited: HashSet<(i32, i32)>,
 }
 
-impl Part1Process {
-    fn new() -> Part1Process {
-        let mut _self = Part1Process {
-            head_position: (0, 0),
-            tail_position: (0, 0),
-            tail_visited: HashSet::new()
+impl RopePositions {
+    fn new(knot_size: usize) -> RopePositions {
+        let mut _self = RopePositions {
+            positions: Vec::new(),
+            tail_visited: HashSet::new(),
         };
-        _self.tail_visited.insert(_self.tail_position);
+        for _ in 0..knot_size {
+            _self.positions.push((0, 0));
+        }
+        if _self.positions.len() > 0 {
+            _self.tail_visited.insert((0, 0));
+        }
         _self
     }
 
-    fn process_movements(self: &mut Part1Process, movements: &Vec<Movement>) {
+    fn process_movements(self: &mut RopePositions, movements: &Vec<Movement>) {
         for movement in movements {
             self.mv(movement);
         }
     }
 
-    fn mv(self: &mut Part1Process, movement: &Movement) {
+    fn mv(self: &mut RopePositions, movement: &Movement) {
+        if self.positions.len() == 0 {
+            return;
+        }
+
         let move_vec = movement.direction.get_movement_vector();
-
         for _ in 0..movement.amount {
-            let new_head = (self.head_position.0 + move_vec.0, self.head_position.1 + move_vec.1);
-            self.head_position = new_head;
+            let head_pos = self.positions.get(0).unwrap();
+            self.positions[0] = (head_pos.0 + move_vec.0, head_pos.1 + move_vec.1);
 
-            let xd = self.head_position.0 - self.tail_position.0;
-            let yd = self.head_position.1 - self.tail_position.1;
+            for pos in 1..self.positions.len() {
+                let tail_pos = &self.positions[pos];
+                let head_pos = &self.positions[pos - 1];
 
-            if xd.abs() > 1 || yd.abs() > 1 {
-                let new_tail = (self.tail_position.0 + xd.signum(), self.tail_position.1 + yd.signum());
-                self.tail_position = new_tail;
-                self.tail_visited.insert(self.tail_position);
+                let xd = head_pos.0 - tail_pos.0;
+                let yd = head_pos.1 - tail_pos.1;
+
+                if xd.abs() > 1 || yd.abs() > 1 {
+                    let new_pos = (tail_pos.0 + xd.signum(), tail_pos.1 + yd.signum());
+                    self.positions[pos] = new_pos;
+                }
             }
+
+            self.tail_visited.insert(*self.positions.get(self.positions.len() - 1).unwrap());
         }
     }
 }
 
-pub fn part1(input_path: &str) -> Result<String, Error> {
+fn run_part(input_path: &str, knots: usize) -> Result<String, Error> {
     let movements = Movement::parse_input(input_path)?;
-    let mut process = Part1Process::new();
-    process.process_movements(&movements);
+    let mut rope = RopePositions::new(knots);
+    rope.process_movements(&movements);
 
-    let result = process.tail_visited.len();
+    let result = rope.tail_visited.len();
     Ok(result.to_string())
 }
+
+pub fn part1(input_path: &str) -> Result<String, Error> {
+    run_part(input_path, 2)
+}
+
+pub fn part2(input_path: &str) -> Result<String, Error> {
+    run_part(input_path, 10)
+}
+

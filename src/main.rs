@@ -34,6 +34,7 @@ fn main() {
         ("8", "1", "puzzles/day8-input.txt", day8::part1),
         ("8", "2", "puzzles/day8-input.txt", day8::part2),
         ("9", "1", "puzzles/day9-input.txt", day9::part1),
+        ("9", "2", "puzzles/day9-input.txt", day9::part2),
     ];
 
     println!("Status,Day,Part,Timing,Answer");
