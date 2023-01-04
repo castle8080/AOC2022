@@ -1,4 +1,5 @@
 use std::time::Instant;
+use std::panic::catch_unwind;
 
 mod common;
 mod day1;
@@ -10,6 +11,7 @@ mod day6;
 mod day7;
 mod day8;
 mod day9;
+mod day10;
 
 use common::Error;
 
@@ -35,18 +37,23 @@ fn main() {
         ("8", "2", "puzzles/day8-input.txt", day8::part2),
         ("9", "1", "puzzles/day9-input.txt", day9::part1),
         ("9", "2", "puzzles/day9-input.txt", day9::part2),
+        ("10", "1", "puzzles/day10-input.txt", day10::part1),
     ];
 
     println!("Status,Day,Part,Timing,Answer");
     for (day_name, part_name, file_name, p_func) in problems {
         let start = Instant::now();
-        let result = p_func(file_name);
+        let result = catch_unwind(|| { p_func(file_name) });
+
         match result {
-            Ok(answer) => {
+            Ok(Ok(answer)) => {
                 println!("OK,{},{},{},{}", day_name, part_name, start.elapsed().as_secs_f64(), answer);
             },
-            Err(e) => {
+            Ok(Err(e)) => {
                 println!("ERROR,{},{},{},{:?}", day_name, part_name, start.elapsed().as_secs_f64(), e);
+            },
+            Err(_) => {
+                println!("ERROR,{},{},{},Panic", day_name, part_name, start.elapsed().as_secs_f64());
             }
         }
     }
