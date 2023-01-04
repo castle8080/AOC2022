@@ -152,7 +152,5 @@ pub fn part2(input_path: &str) -> Result<String, Error> {
     let pixels = pixel::get_pixels(&program_states);
     let result = pixel::render(&pixels);
 
-    println!("{}", result);
-
-    Ok(String::from("<Set output>"))
+    Ok(format!("\"\n{}\"", result))
 }
